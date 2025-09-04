@@ -1,69 +1,72 @@
-# React + TypeScript + Vite
+# GGBET Registration Form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Этот репозиторий содержит компонент формы регистрации для Веб-приложения GGBET, разработанный с использованием React, TypeScript и `styled-components`. Форма включает клиентскую валидацию с помощью `react-hook-form` и ряд улучшений пользовательского опыта, таких как динамические подсказки по паролю и переключение видимости пароля.
 
-Currently, two official plugins are available:
+## Особенности
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **React и TypeScript:** Современная разработка на React с строгой типизацией для повышения надежности кода.
+*   **`react-hook-form`:** Эффективная и легкая библиотека для управления формами и валидации.
+*   **`styled-components`:** Стилизация компонентов для создания модульного и поддерживаемого CSS.
+*   **Поле Email:** Валидация для корректного формата электронной почты.
+*   **Валидация Пароля:** Строгие правила валидации пароля (минимальная длина, заглавные/строчные буквы, цифры, спецсимволы) с динамическими подсказками для пользователя.
+*   **Переключение Видимости Пароля:** Иконка для скрытия/отображения введенного пароля.
+*   **Чекбоксы Согласия:** Обязательные чекбоксы для принятия условий использования и подтверждения возраста (21+).
+*   **Чекбокс Подписки:** Опциональный чекбокс для получения новостей и акций.
+*   **Адаптивный Дизайн:** Оптимизация для корректного отображения на различных устройствах (десктоп, планшет, мобильный).
+*   **Сообщение об Успехе:** Всплывающее сообщение об успешной регистрации.
+*   **Интеграция с `react-router-dom`:** Ссылки для навигации на страницы входа, условий использования и акций.
+*   **Иконки FontAwesome:** Визуальное улучшение полей ввода с помощью иконок.
 
-## Expanding the ESLint configuration
+## Установка
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Чтобы запустить проект локально, выполните следующие шаги:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+1.  **Клонируйте репозиторий:**
+    ```bash
+    git clone https://github.com/ВАШ_НИКНЕЙМ/ggbet-registration-form.git
+    cd ggbet-registration-form
+    ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+2.  **Установите зависимости:**
+    ```bash
+    npm install
+    # или
+    yarn install
+    ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+3.  **Запустите проект:**
+    ```bash
+    npm start
+    # или
+    yarn start
+    ```
+    Приложение будет доступно по адресу `http://localhost:3000`.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Использование компонента
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Компонент `RegistrationForm` можно использовать в вашем React-приложении:
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RegistrationForm from './components/RegistrationForm'; // Предполагаемый путь
+import LoginPage from './components/LoginPage'; // Пример
+import TermsOfUsePage from './components/TermsOfUsePage'; // Пример
+import PromotionsPage from './components/PromotionsPage'; // Пример
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<RegistrationForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+        <Route path="/promotions" element={<PromotionsPage />} />
+        {/* Другие маршруты */}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
