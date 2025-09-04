@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'; // Import faEye and faEyeSlash
+import {
+  faUser,
+  faLock,
+  faEye,
+  faEyeSlash,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons'; // Import faTimesCircle
 import styled from 'styled-components';
 import GGBETLogo from './../../assets/ggbet-logo.svg';
 import { Link } from 'react-router-dom';
@@ -159,6 +165,18 @@ const PasswordToggleIcon = styled(Icon)`
   }
 `;
 
+// New style for the clear username icon
+const ClearUsernameIcon = styled(Icon)`
+  left: unset;
+  right: 12px;
+  cursor: pointer;
+  z-index: 10;
+  color: #aaa;
+  &:hover {
+    color: #fff;
+  }
+`;
+
 /* Чекбокс */
 const CheckboxWrapper = styled.div`
   display: flex;
@@ -300,17 +318,20 @@ const RegistrationForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch, // Use watch to get real-time input values
+    watch,
+    setValue,
   } = useForm<IFormInput>({
     mode: 'onChange',
   });
 
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
-  const password = watch('password', ''); // Watch password field for dynamic requirements
+
+  const password = watch('password', '');
+  const username = watch('username', ''); // Watch username to show/hide clear icon
 
   const onSubmit = (data: IFormInput) => {
-    console.log('✅ Данные формы:', data);
+    console.log('Данные формы:', data);
     setSuccessMessage(`Реєстрація успішна! Ласкаво просимо, ${data.username}`);
     reset();
   };
@@ -351,6 +372,10 @@ const RegistrationForm: React.FC = () => {
   const hasDigit = passwordValidationRules.hasDigit.value.test(password);
   const hasSpecialChar = passwordValidationRules.hasSpecialChar.value.test(password);
 
+  const clearUsername = () => {
+    setValue('username', ''); // Clear the username input
+  };
+
   return (
     <RegistrationSection>
       <RegistrationContainer>
@@ -379,7 +404,7 @@ const RegistrationForm: React.FC = () => {
                 </Icon>
                 <Input
                   id="username"
-                  type="email" // Changed type to email
+                  type="email"
                   placeholder="name@example.com"
                   $error={!!errors.username}
                   {...register('username', {
@@ -389,11 +414,16 @@ const RegistrationForm: React.FC = () => {
                       message: 'Мінімум 5 символів',
                     },
                     pattern: {
-                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, // Only email pattern
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                       message: 'Введіть коректний email (user@example.com)',
                     },
                   })}
                 />
+                {username && ( // Conditionally render clear icon if username has text
+                  <ClearUsernameIcon onClick={clearUsername}>
+                    <FontAwesomeIcon icon={faTimesCircle} />
+                  </ClearUsernameIcon>
+                )}
               </Control>
               {errors.username && <ErrorText>{errors.username.message}</ErrorText>}
               <ErrorText style={{ color: '#888' }}>
@@ -404,14 +434,14 @@ const RegistrationForm: React.FC = () => {
 
             {/* Поле пароля */}
             <FormGroup>
-              <Label htmlFor="password">Пароль</Label>
+              <Label htmlFor="password">Пароль:</Label>
               <Control>
                 <Icon>
                   <FontAwesomeIcon icon={faLock} />
                 </Icon>
                 <Input
                   id="password"
-                  type={showPassword ? 'text' : 'password'} // Toggle type based on showPassword state
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Не менше 8 символів, з цифрами та спецсимволами"
                   $error={!!errors.password}
                   {...register('password', {
@@ -482,7 +512,7 @@ const RegistrationForm: React.FC = () => {
               </ErrorText>
             )}
 
-            {/* Чекбокс "Підтвердження віку" */}
+            {/* Чекбокс "Потверждения успеха" */}
             <CheckboxWrapper>
               <input
                 id="ageConfirmation"
