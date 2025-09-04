@@ -27,14 +27,7 @@
     cd ggbet-registration-form
     ```
 
-2.  **Установите зависимости:**
-    ```bash
-    npm install
-    # или
-    yarn install
-    ```
-
-3.  **Запустите проект:**
+2.  **Запустите проект:**
     ```bash
     npm start
     # или
