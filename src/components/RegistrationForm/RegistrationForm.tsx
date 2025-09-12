@@ -7,10 +7,10 @@ import {
   faEye,
   faEyeSlash,
   faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons'; // Import faTimesCircle
+} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import GGBETLogo from './../../assets/ggbet-logo.svg';
 import { Link } from 'react-router-dom';
+import GGBETLogo from './../../assets/ggbet-logo.svg'; // Убедитесь, что путь к логотипу правильный
 
 /*
   Типизация данных формы
@@ -25,262 +25,300 @@ interface IFormInput {
 
 /* ================= STYLED COMPONENTS ================= */
 
-/* Обёртка всей секции */
 const RegistrationSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #121212;
-  position: relative;
-`;
+  min-height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  background: linear-gradient(135deg, #0f1c2c, #1a2a3a); /* Gradient background */
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width/height */
+  overflow: auto; /* Allow scrolling if content overflows */
 
-/* Контейнер */
-const RegistrationContainer = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: auto;
-  margin: auto;
-  width: 1500px;
-  height: 780px;
-
-  display: flex;
-  flex-direction: row;
-  background: #1e1e1e;
-  overflow: hidden;
   @media (max-width: 768px) {
-    flex-direction: column;
-    border-radius: 0;
-    max-width: 100%;
-    top: 0;
-    bottom: 0;
-    height: 100%;
+    padding: 10px;
   }
 `;
 
-/* Колонки */
+const RegistrationContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  background: #1e2a3a; /* Darker background for the container */
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+  overflow: hidden;
+  max-width: 1200px; /* Max width for larger screens */
+  width: 100%; /* Take full width on smaller screens */
+  min-height: 700px; /* Minimum height */
+  margin: auto; /* Center the container */
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    max-width: 95%;
+    min-height: unset; /* Remove min-height for vertical stacking */
+  }
+
+  @media (max-width: 768px) {
+    border-radius: 0; /* No border-radius on very small screens */
+    max-width: 100%;
+    height: auto;
+  }
+`;
+
 const RegistrationCol = styled.div<{ side?: 'left' | 'right' }>`
   flex: 1;
-  padding: 30px;
-  overflow-y: auto;
+  padding: 40px; /* Increased padding */
+  overflow-y: auto; /* Scrollable content */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 
   ${({ side }) =>
     side === 'left' &&
     `
-      border-right: 1px solid #333;
+      background: #283a4a; /* Slightly lighter background for the form side */
+      border-right: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
 
-      @media (max-width: 768px) {
+      @media (max-width: 992px) {
         border-right: none;
-        border-bottom: 1px solid #333;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       }
     `}
 
   ${({ side }) =>
     side === 'right' &&
     `
-      background: #181818;
+      background: #1e2a3a; /* Consistent background with container */
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center; /* Center content vertically */
+      text-align: center;
+      padding: 40px 30px; /* Adjusted padding */
     `}
+
+  @media (max-width: 768px) {
+    padding: 20px; /* Less padding on small screens */
+  }
 `;
 
-/* Форма */
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 15px; /* Spacing between form groups */
 `;
 
-/* Заголовок */
 const FormTitle = styled.h2`
-  margin-bottom: 20px;
-  font-size: 26px;
-  font-weight: 600;
-  color: #fff;
+  margin-bottom: 25px; /* More space below title */
+  font-size: 30px; /* Larger title */
+  font-weight: 700; /* Bolder */
+  color: #e0e0e0; /* Lighter white */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 `;
 
-/* Группа полей */
 const FormGroup = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 5px; /* Less margin, using gap in Form */
 `;
 
-/* Лейбл */
 const Label = styled.label`
   display: block;
-  font-size: 14px;
+  font-size: 15px; /* Slightly larger label */
   margin-bottom: 8px;
   font-weight: 500;
-  color: #ddd;
+  color: #b0c4de; /* Softer blue-grey */
 `;
 
-/* Контейнер input + иконка */
 const Control = styled.div`
   display: flex;
   align-items: center;
   position: relative;
 `;
 
-/* Иконка */
 const Icon = styled.span`
   position: absolute;
-  left: 12px;
-  font-size: 14px;
-  color: #aaa;
+  left: 15px; /* Increased padding for icon */
+  font-size: 16px; /* Slightly larger icon */
+  color: #8fa6c4; /* Blue-grey color for icons */
 `;
 
-/* Input */
 const Input = styled.input<{ $error?: boolean }>`
   width: 100%;
-  padding: 12px 12px 12px 38px;
-  border: 1px solid ${({ $error }) => ($error ? '#e74c3c' : '#444')};
+  padding: 14px 15px 14px 45px; /* Increased padding and space for icon */
+  border: 1px solid ${({ $error }) => ($error ? '#e74c3c' : '#4f6c8c')}; /* Better error color */
   border-radius: 8px;
   outline: none;
-  transition: border 0.2s, background 0.2s;
-  font-size: 14px;
-  background: #2a2a2a;
-  color: #fff;
+  transition: border 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  font-size: 15px;
+  background: #1a2a3a; /* Darker input background */
+  color: #e0e0e0; /* Lighter text color */
+  box-sizing: border-box; /* Include padding in width */
 
   &:focus {
-    border-color: ${({ $error }) => ($error ? '#e74c3c' : '#007bff')};
-    background: #333;
+    border-color: ${({ $error }) => ($error ? '#e74c3c' : '#64b5f6')}; /* Lighter blue on focus */
+    background: #223447; /* Slightly lighter background on focus */
+    box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.3); /* Blue glowing effect */
   }
 
   &::placeholder {
-    color: #888;
+    color: #8fa6c4; /* Softer placeholder color */
   }
 `;
 
-// New style for the password toggle icon
 const PasswordToggleIcon = styled(Icon)`
-  left: unset; // Override left positioning
-  right: 12px; // Position on the right
-  cursor: pointer;
-  z-index: 10; // Ensure it's above the input
-  color: #007bff; // Make it more prominent
-  &:hover {
-    color: #0056b3;
-  }
-`;
-
-// New style for the clear username icon
-const ClearUsernameIcon = styled(Icon)`
   left: unset;
-  right: 12px;
+  right: 15px; /* Consistent right padding */
   cursor: pointer;
   z-index: 10;
-  color: #aaa;
+  color: #64b5f6; /* Prominent blue */
   &:hover {
-    color: #fff;
+    color: #90caf9; /* Lighter blue on hover */
   }
 `;
 
-/* Чекбокс */
+const ClearUsernameIcon = styled(Icon)`
+  left: unset;
+  right: 15px;
+  cursor: pointer;
+  z-index: 10;
+  color: #8fa6c4;
+  &:hover {
+    color: #e0e0e0;
+  }
+`;
+
 const CheckboxWrapper = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px; /* Less margin, using Form gap */
 
   input {
     margin-right: 10px;
-    margin-top: 4px;
-    accent-color: #007bff;
+    margin-top: 5px; /* Align checkbox better */
+    accent-color: #64b5f6; /* Accent color for checkbox */
     cursor: pointer;
     flex-shrink: 0;
+    width: 18px; /* Larger checkbox */
+    height: 18px; /* Larger checkbox */
   }
 
   label {
     font-size: 14px;
-    color: #ddd;
+    color: #b0c4de;
     cursor: pointer;
-    line-height: 1.4;
+    line-height: 1.5;
 
     a {
-      color: #007bff;
+      color: #64b5f6;
       text-decoration: none;
       margin-left: 4px;
+      font-weight: 500; /* Make links slightly bolder */
 
       &:hover {
         text-decoration: underline;
+        color: #90caf9;
       }
     }
   }
 `;
 
-/* Ошибка */
 const ErrorText = styled.span`
   display: block;
   margin-top: 6px;
   font-size: 13px;
   color: #e74c3c;
-`;
-
-/* Кнопка */
-const SubmitButton = styled.button`
-  padding: 14px 20px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s;
-
-  &:disabled {
-    background: #444;
-    cursor: not-allowed;
-  }
-
-  &:hover:not(:disabled) {
-    background: linear-gradient(135deg, #0056b3, #004080);
-  }
-`;
-
-/* Сообщение об успехе */
-const SuccessMessage = styled.p`
-  margin-top: 16px;
-  font-size: 14px;
-  color: #2ecc71;
   font-weight: 500;
 `;
 
-/* Картинка справа */
-const RightImage = styled.img`
-  max-width: 100%;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+const InfoText = styled(ErrorText)`
+  color: #8fa6c4; /* Softer color for info messages */
+  font-size: 12px;
+  margin-top: 4px;
 `;
 
-/* Стили для ссылки "Вже з нами? Увійди" */
+const SubmitButton = styled.button`
+  padding: 15px 20px; /* More padding */
+  margin-top: 25px; /* More margin */
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #64b5f6, #42a5f5); /* Brighter gradient */
+  color: white;
+  font-weight: 700; /* Bolder text */
+  font-size: 18px; /* Larger font */
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  letter-spacing: 0.5px; /* Add slight letter spacing */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+
+  &:disabled {
+    background: linear-gradient(135deg, #5c6b7c, #4a5a6a); /* Greyer disabled state */
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #42a5f5, #2196f3); /* Darker gradient on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow on hover */
+  }
+`;
+
+const SuccessMessage = styled.p`
+  margin-top: 20px;
+  font-size: 15px;
+  color: #2ecc71;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const RightImage = styled.img`
+  max-width: 90%; /* Responsive image */
+  height: auto; /* Maintain aspect ratio */
+  margin-top: 30px;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+`;
+
 const LoginLinkWrapper = styled.div`
   margin-bottom: 25px;
   text-align: left;
-  font-size: 14px;
-  color: #aaa;
+  font-size: 15px;
+  color: #b0c4de;
 
   a {
-    color: #007bff;
+    color: #64b5f6;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600; /* Bolder link */
     margin-left: 5px;
 
     &:hover {
       text-decoration: underline;
+      color: #90caf9;
     }
   }
 `;
 
-/* Стили для логотипа */
 const LogoLink = styled(Link)`
-  width: 120px;
+  width: 150px; /* Slightly larger logo */
   height: auto;
-  margin-bottom: 30px;
+  margin-bottom: 35px; /* More space below logo */
   align-self: flex-start;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)); /* Shadow for logo */
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03); /* Slight scale on hover */
+  }
+
+  @media (max-width: 768px) {
+    width: 120px;
+    margin-bottom: 25px;
+  }
 `;
 
 const LogoImage = styled.img`
@@ -291,22 +329,69 @@ const LogoImage = styled.img`
 const PasswordRequirements = styled.ul<{ $show?: boolean }>`
   list-style: none;
   padding: 0;
-  margin-top: 8px;
+  margin-top: 10px;
   margin-bottom: 0;
-  font-size: 12px;
-  color: #888;
+  font-size: 13px;
+  color: #8fa6c4;
   display: ${({ $show }) => ($show ? 'block' : 'none')};
+  background: #1a2a3a;
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 `;
 
 const PasswordRequirementItem = styled.li<{ $met?: boolean }>`
   color: ${({ $met }) => ($met ? '#2ecc71' : '#e74c3c')};
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   transition: color 0.2s ease-in-out;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   &::before {
     content: '•';
-    margin-right: 8px;
+    margin-right: 10px;
     font-weight: bold;
+  }
+`;
+
+const RightColumnTitle = styled.h3`
+  color: #e0e0e0;
+  font-size: 24px;
+  margin-bottom: 25px;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+`;
+
+const RightColumnText = styled.p`
+  color: #b0c4de;
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  max-width: 450px;
+`;
+
+const RightColumnButton = styled(Link)`
+  padding: 12px 25px;
+  background-color: #64b5f6;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  &:hover {
+    background-color: #42a5f5;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
   }
 `;
 
@@ -328,7 +413,7 @@ const RegistrationForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const password = watch('password', '');
-  const username = watch('username', ''); // Watch username to show/hide clear icon
+  const username = watch('username', '');
 
   const onSubmit = (data: IFormInput) => {
     console.log('Данные формы:', data);
@@ -361,8 +446,8 @@ const RegistrationForm: React.FC = () => {
       message: 'Пароль повинен містити цифру',
     },
     hasSpecialChar: {
-      value: /[!@#$%^&*()_+]/,
-      message: 'Пароль повинен містити спецсимвол (!@#$%^&*()_+)',
+      value: /[!@#$%^&*()_+=-`~[\]{}|\\:;"'<>,.?/]/, // Расширенный набор спецсимволов
+      message: 'Пароль повинен містити спецсимвол (!@#$%^&*()_+=-`~[]{}|\\:;"\'<>,.?/)',
     },
   };
 
@@ -373,7 +458,7 @@ const RegistrationForm: React.FC = () => {
   const hasSpecialChar = passwordValidationRules.hasSpecialChar.value.test(password);
 
   const clearUsername = () => {
-    setValue('username', ''); // Clear the username input
+    setValue('username', '', { shouldValidate: true }); // Clear username and re-validate
   };
 
   return (
@@ -419,17 +504,17 @@ const RegistrationForm: React.FC = () => {
                     },
                   })}
                 />
-                {username && ( // Conditionally render clear icon if username has text
+                {username && (
                   <ClearUsernameIcon onClick={clearUsername}>
                     <FontAwesomeIcon icon={faTimesCircle} />
                   </ClearUsernameIcon>
                 )}
               </Control>
               {errors.username && <ErrorText>{errors.username.message}</ErrorText>}
-              <ErrorText style={{ color: '#888' }}>
+              <InfoText>
                 Будь ласка, введіть дійсний email. Ця інформація буде використана для входу та
                 відновлення пароля.
-              </ErrorText>
+              </InfoText>
             </FormGroup>
 
             {/* Поле пароля */}
@@ -468,7 +553,6 @@ const RegistrationForm: React.FC = () => {
                 </PasswordToggleIcon>
               </Control>
               {errors.password && <ErrorText>{errors.password.message}</ErrorText>}
-              {/* Dynamic password requirements */}
               <PasswordRequirements $show={password.length > 0}>
                 <PasswordRequirementItem $met={isPasswordLongEnough}>
                   Не менше 8 символів
@@ -489,59 +573,59 @@ const RegistrationForm: React.FC = () => {
             </FormGroup>
 
             {/* Чекбокс "Я принимаю условия использования" */}
-            <CheckboxWrapper>
-              <input
-                id="acceptTerms"
-                type="checkbox"
-                {...register('acceptTerms', {
-                  required: 'Ви повинні прийняти умови використання.',
-                })}
-              />
-              <label htmlFor="acceptTerms">
-                Я підтверджую, що приймаю{' '}
-                <Link to="/terms-of-use" target="_blank" rel="noopener noreferrer">
-                  Умови використання
-                </Link>
-                .
-              </label>
-            </CheckboxWrapper>
-            {errors.acceptTerms && <ErrorText>{errors.acceptTerms.message}</ErrorText>}
-            {!errors.acceptTerms && (
-              <ErrorText style={{ color: '#888' }}>
-                Ознайомтеся з Умовами використання перед реєстрацією.
-              </ErrorText>
-            )}
+            <FormGroup>
+              <CheckboxWrapper>
+                <input
+                  id="acceptTerms"
+                  type="checkbox"
+                  {...register('acceptTerms', {
+                    required: 'Ви повинні прийняти умови використання.',
+                  })}
+                />
+                <label htmlFor="acceptTerms">
+                  Я підтверджую, що приймаю{' '}
+                  <Link to="/terms-of-use" target="_blank" rel="noopener noreferrer">
+                    Умови використання
+                  </Link>
+                  .
+                </label>
+              </CheckboxWrapper>
+              {errors.acceptTerms && <ErrorText>{errors.acceptTerms.message}</ErrorText>}
+              {!errors.acceptTerms && (
+                <InfoText>Ознайомтеся з Умовами використання перед реєстрацією.</InfoText>
+              )}
+            </FormGroup>
 
             {/* Чекбокс "Потверждения успеха" */}
-            <CheckboxWrapper>
-              <input
-                id="ageConfirmation"
-                type="checkbox"
-                {...register('ageConfirmation', {
-                  required: 'Ви повинні підтвердити свій вік.',
-                })}
-              />
-              <label htmlFor="ageConfirmation">
-                Я підтверджую, що мені є 21 рік та не маю обмежень в участі в азартних іграх.
-              </label>
-            </CheckboxWrapper>
-            {errors.ageConfirmation && <ErrorText>{errors.ageConfirmation.message}</ErrorText>}
-            {!errors.ageConfirmation && (
-              <ErrorText style={{ color: '#888' }}>
-                Реєстрація дозволена особам, які досягли 21 року.
-              </ErrorText>
-            )}
+            <FormGroup>
+              <CheckboxWrapper>
+                <input
+                  id="ageConfirmation"
+                  type="checkbox"
+                  {...register('ageConfirmation', {
+                    required: 'Ви повинні підтвердити свій вік.',
+                  })}
+                />
+                <label htmlFor="ageConfirmation">
+                  Я підтверджую, що мені є 21 рік та не маю обмежень в участі в азартних іграх.
+                </label>
+              </CheckboxWrapper>
+              {errors.ageConfirmation && <ErrorText>{errors.ageConfirmation.message}</ErrorText>}
+              {!errors.ageConfirmation && (
+                <InfoText>Реєстрація дозволена особам, які досягли 21 року.</InfoText>
+              )}
+            </FormGroup>
 
             {/* Чекбокс "Получать новости и акции" */}
-            <CheckboxWrapper>
-              <input id="receiveNews" type="checkbox" {...register('receiveNews')} />
-              <label htmlFor="receiveNews">
-                Я погоджуюсь отримувати акційні пропозиції, новини та бонуси від GGBET.UA
-              </label>
-            </CheckboxWrapper>
-            <ErrorText style={{ color: '#888', marginTop: '-5px', marginBottom: '15px' }}>
-              Будьте в курсі останніх акцій та бонусів!
-            </ErrorText>
+            <FormGroup>
+              <CheckboxWrapper>
+                <input id="receiveNews" type="checkbox" {...register('receiveNews')} />
+                <label htmlFor="receiveNews">
+                  Я погоджуюсь отримувати акційні пропозиції, новини та бонуси від GGBET.UA
+                </label>
+              </CheckboxWrapper>
+              <InfoText>Будьте в курсі останніх акцій та бонусів!</InfoText>
+            </FormGroup>
 
             {/* Кнопка отправки */}
             <SubmitButton type="submit">Зареєструватися</SubmitButton>
@@ -553,34 +637,16 @@ const RegistrationForm: React.FC = () => {
 
         {/* Правая колонка */}
         <RegistrationCol side="right">
-          <h3 style={{ color: '#fff', textAlign: 'center', marginBottom: '20px' }}>
-            Реєструйтеся та отримуйте бонуси!
-          </h3>
+          <RightColumnTitle>Реєструйтеся та отримуйте бонуси!</RightColumnTitle>
           <RightImage
             src="https://ggbet.ua/file/media:1dfedd6e201097b19e2c07fec24d5384b7c605f0ff?w=1000"
             alt="promo"
           />
-          <p style={{ color: '#aaa', fontSize: '14px', marginTop: '20px', textAlign: 'center' }}>
+          <RightColumnText>
             Приєднуйтесь до GGBET.UA та занурюйтесь у світ спортивних ставок та кіберспорту. Миттєві
             виплати, широка лінія та найкращі коефіцієнти чекають на вас!
-          </p>
-          <Link
-            to="/promotions"
-            style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              backgroundColor: '#007bff',
-              color: 'white',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              fontWeight: 'bold',
-              transition: 'background-color 0.3s',
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#0056b3')}
-            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#007bff')}
-          >
-            Наші Акції
-          </Link>
+          </RightColumnText>
+          <RightColumnButton to="/promotions">Наші Акції</RightColumnButton>
         </RegistrationCol>
       </RegistrationContainer>
     </RegistrationSection>
